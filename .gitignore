@@ -280,3 +280,7 @@ poetry.toml
 pyrightconfig.json
 
 # End of https://www.toptal.com/developers/gitignore/api/python,flask,jupyternotebooks,opencv
+
+# Uploaded scans and trained model weights
+static/uploads/
+static/models/*.pth
