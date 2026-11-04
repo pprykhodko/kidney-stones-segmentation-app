@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kidney Stone Segmentation</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <main class="page">
+        <div class="page-heading">
+            <h1>Kidney stone segmentation</h1>
+            <p>Upload a CT scan to generate a segmentation mask and review the highlighted regions</p>
+        </div>
+
+        <div class="workspace">
+            <aside class="upload-panel panel" aria-labelledby="upload-heading">
+                <section class="guide" aria-labelledby="workflow-heading">
+                    <h2 id="workflow-heading">How it works</h2>
+                    <ol>
+                        <li>Upload a CT scan.</li>
+                        <li>Run segmentation.</li>
+                        <li>Review and download the results.</li>
+                    </ol>
+                </section>
+
+                <h2 id="upload-heading">Upload a scan</h2>
+
+                {% if error %}
+                    <div class="error-message" role="alert">{{ error }}</div>
+                {% endif %}
+
+                <form action="{{ url_for('upload_file') }}" method="post" enctype="multipart/form-data">
+                    <input class="file-input" type="file" id="image" name="image"
+                           accept="image/jpeg,image/png" aria-label="Scan image"
+                           aria-describedby="file-hint" required>
+                    <p class="file-hint" id="file-hint">JPG or PNG · Maximum 10 MB</p>
+                    <button class="button button-primary submit-button" type="submit">
+                        Segment image
+                    </button>
+                </form>
+            </aside>
+
+            <section class="results-panel panel" id="results" aria-labelledby="results-heading">
+                <div class="results-header">
+                    <h2 id="results-heading">Your results</h2>
+                    {% if segmented_image %}
+                        <span class="status-badge" role="status">
+                            <span aria-hidden="true">✓</span> Segmentation complete
+                        </span>
+                    {% endif %}
+                </div>
+
+                {% if uploaded_image %}
+                    <div class="scan-grid{% if not segmented_image %} scan-grid-single{% endif %}">
+                        <figure class="scan-card">
+                            <figcaption>Original scan <span>Input</span></figcaption>
+                            <div class="scan-image">
+                                <img src="{{ uploaded_image }}" alt="Original uploaded kidney scan">
+                            </div>
+                        </figure>
+                        {% if segmented_image %}
+                            <figure class="scan-card">
+                                <figcaption>Segmentation</figcaption>
+                                <div class="scan-image">
+                                    <img src="{{ segmented_image }}" alt="Kidney scan with predicted regions highlighted in green">
+                                </div>
+                            </figure>
+                        {% endif %}
+                    </div>
+                    {% if segmented_image %}
+                        <div class="result-actions">
+                            <p class="result-note"><span class="legend-dot" aria-hidden="true"></span>Predicted stone regions</p>
+                            <div class="download-actions">
+                                <a class="button button-secondary" href="{{ segmented_image }}" download>Download overlay</a>
+                                <a class="button button-primary" href="{{ mask_image }}" download>Download mask <span aria-hidden="true">↓</span></a>
+                            </div>
+                        </div>
+                        <details class="mask-details">
+                            <summary>View binary mask <span>Black &amp; white</span></summary>
+                            <div class="mask-preview">
+                                <img src="{{ mask_image }}" alt="Binary segmentation mask with predicted regions in white">
+                                <p class="muted">White pixels show the predicted regions. Black pixels show the background.</p>
+                            </div>
+                        </details>
+                    {% endif %}
+                {% else %}
+                    <div class="empty-state">
+                        <div class="empty-icon" aria-hidden="true">
+                            <svg viewBox="0 0 64 64" fill="none">
+                                <rect x="12" y="8" width="40" height="48" rx="6" />
+                                <path d="M23 24h18M23 32h18M23 40h10" />
+                                <path d="M7 18V7h11M46 7h11v11M7 46v11h11M46 57h11V46" />
+                            </svg>
+                        </div>
+                        <h3>Your results will appear here.</h3>
+                        <p>Choose an image and select <strong>Segment image</strong>. <br>The original and the result will appear side by side.</p>
+                        <span class="empty-label">Ready for your first scan</span>
+                    </div>
+                {% endif %}
+            </section>
+        </div>
+    </main>
+</body>
+</html>

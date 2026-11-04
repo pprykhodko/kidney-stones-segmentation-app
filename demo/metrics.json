@@ -1,0 +1,62 @@
+{
+  "source": "https://colab.research.google.com/drive/1O0uo5r8oXhossYm_1wzTceZzpH3ZDv8H?usp=sharing",
+  "provenance": "Values copied from saved Colab cell outputs, rounded to four decimal places; no new training run.",
+  "model": "U-Net / ResNet50",
+  "best_epoch": 21,
+  "epochs": 25,
+  "image_size": 256,
+  "threshold": 0.5,
+  "target": "GrabCut pseudo-masks with Otsu fallback",
+  "aggregation": "Global pixel TP/FP/FN/TN over each split",
+  "metrics": {
+    "train": {
+      "dice": 0.9201,
+      "iou": 0.8521,
+      "precision": 0.9257,
+      "recall": 0.9147,
+      "specificity": 0.9998,
+      "accuracy": 0.9997,
+      "loss": 0.1497
+    },
+    "validation": {
+      "dice": 0.9078,
+      "iou": 0.8312,
+      "precision": 0.9092,
+      "recall": 0.9064,
+      "specificity": 0.9998,
+      "accuracy": 0.9996,
+      "loss": 0.1355
+    },
+    "test": {
+      "dice": 0.9231,
+      "iou": 0.8573,
+      "precision": 0.9357,
+      "recall": 0.9109,
+      "specificity": 0.9999,
+      "accuracy": 0.9997,
+      "loss": 0.1426
+    }
+  },
+  "source_notebook_sha256": "870b31a3908ab97d27326a957b98d444abc474f5ed9dfee0a491ffabd74ab36e",
+  "test_confusion_matrix": {
+    "row_labels": [
+      "background",
+      "stone"
+    ],
+    "column_labels": [
+      "background",
+      "stone"
+    ],
+    "counts": [
+      [
+        8044388,
+        974
+      ],
+      [
+        1387,
+        14179
+      ]
+    ],
+    "source": "Saved confusion-matrix figure in the linked Colab notebook"
+  }
+}
