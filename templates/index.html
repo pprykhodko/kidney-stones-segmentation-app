@@ -17,14 +17,25 @@
         <form action="{{ url_for('upload_file') }}" method="post" enctype="multipart/form-data">
             <label for="image">Choose an image</label>
             <input type="file" id="image" name="image" accept="image/jpeg,image/png" required>
-            <button type="submit">Upload image</button>
+            <button type="submit">Segment image</button>
         </form>
 
         {% if uploaded_image %}
             <section>
-                <h2>Image preview</h2>
-                <p role="status">Image uploaded successfully.</p>
+                <h2>Original scan</h2>
                 <img src="{{ uploaded_image }}" alt="Uploaded kidney scan" width="512" style="max-width: 100%; height: auto;">
+            </section>
+        {% endif %}
+
+        {% if segmented_image %}
+            <section>
+                <h2>Segmentation result</h2>
+                <p role="status">Segmentation complete.</p>
+                <img src="{{ segmented_image }}" alt="Kidney scan with the predicted mask highlighted in green" width="512" style="max-width: 100%; height: auto;">
+            </section>
+            <section>
+                <h2>Predicted mask</h2>
+                <img src="{{ mask_image }}" alt="Predicted binary stone mask" width="512" style="max-width: 100%; height: auto;">
             </section>
         {% endif %}
     </main>

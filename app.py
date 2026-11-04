@@ -4,9 +4,12 @@ from uuid import uuid4
 from flask import Flask, render_template, request, url_for
 from PIL import Image
 
+from segmentator import segment_image
+
 app = Flask(__name__)
 
 app.config['UPLOAD_FOLDER'] = os.path.join(app.static_folder, 'uploads')
+app.config['RESULTS_FOLDER'] = os.path.join(app.static_folder, 'results')
 app.config['MAX_CONTENT_LENGTH'] = 10 * 1024 * 1024
 
 ALLOWED_EXTENSIONS = {'jpg', 'jpeg', 'png'}
@@ -59,9 +62,32 @@ def upload_file():
 
     uploaded_image = url_for('static', filename=f'uploads/{filename}')
 
+    try:
+        mask, overlay = segment_image(upload_image_path)
+        os.makedirs(app.config['RESULTS_FOLDER'], exist_ok=True)
+        image_id = os.path.splitext(filename)[0]
+        mask_filename = f'{image_id}_mask.png'
+        overlay_filename = f'{image_id}_overlay.png'
+        Image.fromarray(mask).save(
+            os.path.join(app.config['RESULTS_FOLDER'], mask_filename)
+        )
+        Image.fromarray(overlay).save(
+            os.path.join(app.config['RESULTS_FOLDER'], overlay_filename)
+        )
+    except (OSError, ValueError, RuntimeError):
+        app.logger.exception('Image segmentation failed')
+
+        return render_template(
+            'index.html',
+            uploaded_image=uploaded_image,
+            error='Unable to segment this image. Please try again.'
+        ), 500
+
     return render_template(
         'index.html',
-        uploaded_image=uploaded_image
+        uploaded_image=uploaded_image,
+        mask_image=url_for('static', filename=f'results/{mask_filename}'),
+        segmented_image=url_for('static', filename=f'results/{overlay_filename}')
     )
 
 
