@@ -61,7 +61,7 @@ Create `src/static/models/` if it does not exist, and place the trained checkpoi
 src/static/models/model.pth
 ```
 
-**The weights are excluded from Git and are not included when cloning the repository.** Obtain `model.pth` by running the training notebook in Colab and downloading the saved checkpoint.
+**The weights are excluded from Git and are not included when cloning the repository.** Obtain `model.pth` by running the [training notebook in Colab](https://colab.research.google.com/drive/1O0uo5r8oXhossYm_1wzTceZzpH3ZDv8H?usp=sharing) and downloading the saved checkpoint.
 
 The file must contain the PyTorch `state_dict` for **U-Net / ResNet50, `in_channels=1`, `classes=1`**. A checkpoint trained with a different encoder or a different number of input channels will not load into this model.
 
@@ -142,6 +142,10 @@ The notebook builds training targets from the supplied annotations:
 </details>
 
 ## Training in Google Colab
+
+- [Repository notebook](notebooks/model_training.ipynb): the training implementation.
+- [Google Colab notebook with saved outputs](https://colab.research.google.com/drive/1O0uo5r8oXhossYm_1wzTceZzpH3ZDv8H?usp=sharing): the recorded run used for the metrics and figures below.
+
 The recorded run used the following settings:
 
 | Setting | Value |
