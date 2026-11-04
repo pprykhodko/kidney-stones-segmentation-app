@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kidney Stone Segmentation</title>
+</head>
+<body>
+    <main>
+        <h1>Kidney Stone Segmentation</h1>
+        <p>Upload a kidney scan in JPG or PNG format. Maximum file size: 10 MB.</p>
+
+        {% if error %}
+            <p role="alert">{{ error }}</p>
+        {% endif %}
+
+        <form action="{{ url_for('upload_file') }}" method="post" enctype="multipart/form-data">
+            <label for="image">Choose an image</label>
+            <input type="file" id="image" name="image" accept="image/jpeg,image/png" required>
+            <button type="submit">Upload image</button>
+        </form>
+
+        {% if uploaded_image %}
+            <section>
+                <h2>Image preview</h2>
+                <p role="status">Image uploaded successfully.</p>
+                <img src="{{ uploaded_image }}" alt="Uploaded kidney scan" width="512" style="max-width: 100%; height: auto;">
+            </section>
+        {% endif %}
+    </main>
+</body>
+</html>
