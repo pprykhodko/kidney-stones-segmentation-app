@@ -283,4 +283,5 @@ pyrightconfig.json
 
 # Uploaded scans and trained model weights
 static/uploads/
+static/results/
 static/models/*.pth
