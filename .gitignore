@@ -282,6 +282,6 @@ pyrightconfig.json
 # End of https://www.toptal.com/developers/gitignore/api/python,flask,jupyternotebooks,opencv
 
 # Uploaded scans and trained model weights
-static/uploads/
-static/results/
-static/models/*.pth
+src/static/uploads/
+src/static/results/
+src/static/models/*.pth
